@@ -61,42 +61,60 @@ btnArr.forEach(function (elem, index) {
         elem.style.backgroundColor = 'whitesmoke';
     }
 
-    console.log(index, colorArr);
-    if (elem.style.backgroundColor == 'green') {
-        greenBtn.push(elem);
-        console.log(elem.style.backgroundColor);
-        if (greenBtn.length == 3) {
-            indexOfGreen = colorArr.indexOf('green');
-            colorArr.splice(indexOfGreen, 1);
-            console.log(index, colorArr, indexOfGreen);
-        }
-    }if (elem.style.backgroundColor == 'red') {
-        redBtn.push(elem);
-        console.log(elem.style.backgroundColor);
-        if (redBtn.length == 4) {
-            indexOfRed = colorArr.indexOf('red');
-            colorArr.splice(indexOfRed, 1);
-            console.log(index, colorArr, indexOfRed);
+    checkButtonColor(elem, 'green', greenBtn, 3);
+    checkButtonColor(elem, 'red', redBtn, 4);
+    checkButtonColor(elem, 'blue', blueBtn, 4);
+    checkButtonColor(elem, 'yellow', yellowBtn, 4);
+
+    function checkButtonColor(item, color, btnColorArr, amount) {
+        if (item.style.backgroundColor == color) {
+            btnColorArr.push(item);
+            console.log(item.style.backgroundColor);
+            if (btnColorArr.length == amount) {
+                indexOfColor = colorArr.indexOf(color);
+                colorArr.splice(indexOfColor, 1);
+                console.log(colorArr, indexOfColor);
+            }
         }
     }
-    if (elem.style.backgroundColor == 'blue') {
-        blueBtn.push(elem);
-        console.log(elem.style.backgroundColor);
-        if (blueBtn.length == 4) {
-            indexOfBlue = colorArr.indexOf('blue');
-            colorArr.splice(indexOfBlue, 1);
-            console.log(index, colorArr, indexOfBlue);
-        }
-    }
-    if (elem.style.backgroundColor == 'yellow') {
-        yellowBtn.push(elem);
-        console.log(elem.style.backgroundColor);
-        if (yellowBtn.length == 4) {
-            indexOfYellow = colorArr.indexOf('yellow');
-            colorArr.splice(indexOfYellow, 1);
-            console.log(index, colorArr);
-        }
-    }
+
+    // console.log(index, colorArr);
+    // if (elem.style.backgroundColor == 'green') {
+    //     greenBtn.push(elem);
+    //     console.log(elem.style.backgroundColor);
+    //     if (greenBtn.length == 3) {
+    //         indexOfGreen = colorArr.indexOf('green');
+    //         colorArr.splice(indexOfGreen, 1);
+    //         console.log(index, colorArr, indexOfGreen);
+    //     }
+    // }
+    // if (elem.style.backgroundColor == 'red') {
+    //     redBtn.push(elem);
+    //     console.log(elem.style.backgroundColor);
+    //     if (redBtn.length == 4) {
+    //         indexOfRed = colorArr.indexOf('red');
+    //         colorArr.splice(indexOfRed, 1);
+    //         console.log(index, colorArr, indexOfRed);
+    //     }
+    // }
+    // if (elem.style.backgroundColor == 'blue') {
+    //     blueBtn.push(elem);
+    //     console.log(elem.style.backgroundColor);
+    //     if (blueBtn.length == 4) {
+    //         indexOfBlue = colorArr.indexOf('blue');
+    //         colorArr.splice(indexOfBlue, 1);
+    //         console.log(index, colorArr, indexOfBlue);
+    //     }
+    // }
+    // if (elem.style.backgroundColor == 'yellow') {
+    //     yellowBtn.push(elem);
+    //     console.log(elem.style.backgroundColor);
+    //     if (yellowBtn.length == 4) {
+    //         indexOfYellow = colorArr.indexOf('yellow');
+    //         colorArr.splice(indexOfYellow, 1);
+    //         console.log(index, colorArr);
+    //     }
+    // }
 });
 
 body.append(textTitle, gameField);
