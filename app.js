@@ -48,12 +48,13 @@ let whiteBtnX;
 let whiteBtnY;
 
 function stylizeBtn(array) {
-    const colorArr = ['green', 'red', 'blue', 'yellow'];
+    const colorArr = ['green', 'red', 'blue', 'yellow', 'white'];
 
-    let greenBtn = [];
-    let redBtn = [];
-    let blueBtn = [];
-    let yellowBtn = [];
+    let greenBtnArr = [];
+    let redBtnArr = [];
+    let blueBtnArr = [];
+    let yellowBtnArr = [];
+    let whiteBtnArr = [];
 
     array.forEach(function (elem, index) {
         elem.style.width = '80px';
@@ -61,18 +62,11 @@ function stylizeBtn(array) {
         elem.style.cursor = 'pointer';
         elem.style.backgroundColor = colorArr[Math.floor(Math.random() * colorArr.length)];
 
-        elem.textContent = index + 1;
-        
-        if (index === btnArray.length-1) {
-            elem.style.backgroundColor = 'white';
-            whiteBtn = elem;
-            whiteBtnIndex = index;
-        }
-
-        checkButtonColor(elem, 'green', greenBtn, 3);
-        checkButtonColor(elem, 'red', redBtn, 4);
-        checkButtonColor(elem, 'blue', blueBtn, 4);
-        checkButtonColor(elem, 'yellow', yellowBtn, 4);
+        checkButtonColor(elem, 'green', greenBtnArr, 3);
+        checkButtonColor(elem, 'red', redBtnArr, 4);
+        checkButtonColor(elem, 'blue', blueBtnArr, 4);
+        checkButtonColor(elem, 'yellow', yellowBtnArr, 4);
+        checkButtonColor(elem, 'white', whiteBtnArr, 1);
 
         function checkButtonColor(item, color, btnColorArr, amount) {
             if (item.style.backgroundColor === color) {
@@ -111,6 +105,8 @@ function stylizeBtn(array) {
         }
 
         if (elem.style.backgroundColor === 'white') {
+            whiteBtn = elem;
+            whiteBtnIndex = index;
             whiteBtnX = elem.style.gridRowStart;
             whiteBtnY = elem.style.gridColumnStart;
         }
@@ -140,6 +136,17 @@ function switchBtn(array) {
             }
         });
     });
+}
+
+// сделать чтоб переешаться могли любые притки, а не только белая
+// сделать анимацию смены цвета плитки
+// чтоб при этом в время анимации другие притки не могли двигаться
+// сделать чтоб чекалось навидение на плитку и при нажатии на ентр она перемешалась
+// сделать шкалу победы
+// сделать комбинации победы
+
+function winGame() {
+    
 }
 
 function getStart() {
