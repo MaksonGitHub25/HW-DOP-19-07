@@ -63,7 +63,7 @@ function stylizeBtn(array) {
 
         if (index === btnArray.length - 1) {
             elem.style.backgroundColor = 'gray';
-            elem.style.disabled = true;
+            elem.disabled = true;
             elem.textContent = 'x';
             elem.style.fontSize = '2.5rem';
         }
@@ -168,29 +168,37 @@ function switchBtn(array) {
         elem.addEventListener('click', function () {
             const elemX = elem.style.gridRowStart;
             const elemY = elem.style.gridColumnStart;
+            let elemColor = elem.style.backgroundColor;
             const elemCoordinatesSum = +elemX + +elemY;
+            
+            function checkNeighboringElem(element, elementColor, neighborElemX, neighborElemY) {
+                array.forEach(function (elem) {
+                    const forEachElemX = +elem.style.gridRowStart;
+                    const forEachElemY = +elem.style.gridColumnStart;
+
+                    if (forEachElemY == neighborElemY && forEachElemX == neighborElemX) {
+                        neighboringElemColor = elem.style.backgroundColor;
+                        elem.style.backgroundColor = elementColor;
+                    }
+                });
+                element.style.backgroundColor = neighboringElemColor;
+            }
 
             switch (direction) {
                 case 'top':
-                    const neighboringElemX = elemX - 1;
-                    const neighboringElemY = elemY;
+                    const neighborElemX = +elemX - 1;
+                    const neighborElemY = +elemY;
 
-                    array.forEach(function (elem) {
-                        const forEachElemX = elem.style.gridRowStart;
-                        const forEachElemY = elem.style.gridColumnStart;
-
-                        if (forEachElemY == neighboringElemY && forEachElemX == neighboringElemX) {
-                            console.log(elem);
-                            console.log(elem.style.backgroundColor);
-                        }
-                    });
-
-                    // const neighboringElemColor = neighboringElem;
+                    checkNeighboringElem(elem, elemColor, neighborElemX, neighborElemY);
                     break;
-            
+
+                case 'bottom':
+                    console.log('nigga');
+                    break;
                 default:
                     break;
             }
+
         });
     });
 }
