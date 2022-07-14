@@ -48,13 +48,12 @@ let whiteBtnX;
 let whiteBtnY;
 
 function stylizeBtn(array) {
-    const colorArr = ['green', 'red', 'blue', 'yellow', 'white'];
+    const colorArr = ['green', 'red', 'blue', 'yellow'];
 
     let greenBtnArr = [];
     let redBtnArr = [];
     let blueBtnArr = [];
     let yellowBtnArr = [];
-    let whiteBtnArr = [];
 
     array.forEach(function (elem, index) {
         elem.style.width = '80px';
@@ -62,11 +61,17 @@ function stylizeBtn(array) {
         elem.style.cursor = 'pointer';
         elem.style.backgroundColor = colorArr[Math.floor(Math.random() * colorArr.length)];
 
+        if (index === btnArray.length - 1) {
+            elem.style.backgroundColor = 'gray';
+            elem.style.disabled = true;
+            elem.textContent = 'x';
+            elem.style.fontSize = '2.5rem';
+        }
+
         checkButtonColor(elem, 'green', greenBtnArr, 3);
         checkButtonColor(elem, 'red', redBtnArr, 4);
         checkButtonColor(elem, 'blue', blueBtnArr, 4);
         checkButtonColor(elem, 'yellow', yellowBtnArr, 4);
-        checkButtonColor(elem, 'white', whiteBtnArr, 1);
 
         function checkButtonColor(item, color, btnColorArr, amount) {
             if (item.style.backgroundColor === color) {
@@ -104,35 +109,87 @@ function stylizeBtn(array) {
             }
         }
 
-        if (elem.style.backgroundColor === 'white') {
-            whiteBtn = elem;
-            whiteBtnIndex = index;
-            whiteBtnX = elem.style.gridRowStart;
-            whiteBtnY = elem.style.gridColumnStart;
-        }
+        // if (elem.style.backgroundColor === 'white') {
+        //     whiteBtn = elem;
+        //     whiteBtnIndex = index;
+        //     whiteBtnX = elem.style.gridRowStart;
+        //     whiteBtnY = elem.style.gridColumnStart;
+        // }
     });
 }
 
 function switchBtn(array) {
-    array.forEach(function (elem) {
-        elem.addEventListener('click', function () {
-            if (elem.style.backgroundColor === 'white') {
-                console.log('This is white btn nigger');
-            } else {
-                const elemX = elem.style.gridColumnStart;
-                const elemY = elem.style.gridRowStart;
-                const elemCoordinatesSum = +elemX + +elemY;
-                const whiteBtnCoordinatesSum = +whiteBtnX + +whiteBtnY;
-                let colorOfBtn;
+    let direction;
+    document.addEventListener('keyup', function (event) {
+        switch (event.code) {
+            case 'ArrowLeft':
+                direction = 'left';
+                break;
     
-                if (elemCoordinatesSum + 1 === whiteBtnCoordinatesSum || elemCoordinatesSum - 1 === whiteBtnCoordinatesSum) {
-                    colorOfBtn = elem.style.backgroundColor;
-                    whiteBtn.style.backgroundColor = colorOfBtn;
-                    elem.style.backgroundColor = 'white';
-                    whiteBtn = elem;
-                    whiteBtnX = elemX;
-                    whiteBtnY = elemY;
-                }
+            case 'ArrowRight':
+                direction = 'right';
+                break;
+        
+            case 'ArrowUp':
+                direction = 'top';
+                break;
+    
+            case 'ArrowDown':
+                direction = 'bottom';
+                break;
+        
+            default:
+                break;
+        }
+    });
+    
+    array.forEach(function (elem) {
+        // elem.addEventListener('click', function () {
+        //     if (elem.style.backgroundColor === 'white') {
+        //         console.log('This is white btn nigger');
+        //     } else {
+        //         const elemX = elem.style.gridColumnStart;
+        //         const elemY = elem.style.gridRowStart;
+        //         const elemCoordinatesSum = +elemX + +elemY;
+        //         const whiteBtnCoordinatesSum = +whiteBtnX + +whiteBtnY;
+        //         let colorOfBtn;
+    
+        //         if (elemCoordinatesSum + 1 === whiteBtnCoordinatesSum || elemCoordinatesSum - 1 === whiteBtnCoordinatesSum) {
+        //             colorOfBtn = elem.style.backgroundColor;
+        //             whiteBtn.style.backgroundColor = colorOfBtn;
+        //             elem.style.backgroundColor = 'white';
+        //             whiteBtn = elem;
+        //             whiteBtnX = elemX;
+        //             whiteBtnY = elemY;
+        //         }
+        //     }
+        // });
+
+        elem.addEventListener('click', function () {
+            const elemX = elem.style.gridRowStart;
+            const elemY = elem.style.gridColumnStart;
+            const elemCoordinatesSum = +elemX + +elemY;
+
+            switch (direction) {
+                case 'top':
+                    const neighboringElemX = elemX - 1;
+                    const neighboringElemY = elemY;
+
+                    array.forEach(function (elem) {
+                        const forEachElemX = elem.style.gridRowStart;
+                        const forEachElemY = elem.style.gridColumnStart;
+
+                        if (forEachElemY == neighboringElemY && forEachElemX == neighboringElemX) {
+                            console.log(elem);
+                            console.log(elem.style.backgroundColor);
+                        }
+                    });
+
+                    // const neighboringElemColor = neighboringElem;
+                    break;
+            
+                default:
+                    break;
             }
         });
     });
