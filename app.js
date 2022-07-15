@@ -108,13 +108,6 @@ function stylizeBtn(array) {
                elem.style.gridColumnStart = 3;
             }
         }
-
-        // if (elem.style.backgroundColor === 'white') {
-        //     whiteBtn = elem;
-        //     whiteBtnIndex = index;
-        //     whiteBtnX = elem.style.gridRowStart;
-        //     whiteBtnY = elem.style.gridColumnStart;
-        // }
     });
 }
 
@@ -144,75 +137,90 @@ function switchBtn(array) {
     });
     
     array.forEach(function (elem) {
-        // elem.addEventListener('click', function () {
-        //     if (elem.style.backgroundColor === 'white') {
-        //         console.log('This is white btn nigger');
-        //     } else {
-        //         const elemX = elem.style.gridColumnStart;
-        //         const elemY = elem.style.gridRowStart;
-        //         const elemCoordinatesSum = +elemX + +elemY;
-        //         const whiteBtnCoordinatesSum = +whiteBtnX + +whiteBtnY;
-        //         let colorOfBtn;
-    
-        //         if (elemCoordinatesSum + 1 === whiteBtnCoordinatesSum || elemCoordinatesSum - 1 === whiteBtnCoordinatesSum) {
-        //             colorOfBtn = elem.style.backgroundColor;
-        //             whiteBtn.style.backgroundColor = colorOfBtn;
-        //             elem.style.backgroundColor = 'white';
-        //             whiteBtn = elem;
-        //             whiteBtnX = elemX;
-        //             whiteBtnY = elemY;
-        //         }
-        //     }
-        // });
-
         elem.addEventListener('click', function () {
             const elemX = elem.style.gridRowStart;
             const elemY = elem.style.gridColumnStart;
             let elemColor = elem.style.backgroundColor;
-            const elemCoordinatesSum = +elemX + +elemY;
             
-            function checkNeighboringElem(element, elementColor, neighborElemX, neighborElemY) {
-                array.forEach(function (elem) {
-                    const forEachElemX = +elem.style.gridRowStart;
-                    const forEachElemY = +elem.style.gridColumnStart;
-
-                    if (forEachElemY == neighborElemY && forEachElemX == neighborElemX) {
-                        neighboringElemColor = elem.style.backgroundColor;
-                        elem.style.backgroundColor = elementColor;
-                    }
-                });
-                element.style.backgroundColor = neighboringElemColor;
-            }
+            let neighborElemX = +elemX;
+            let neighborElemY = +elemY;
 
             switch (direction) {
                 case 'top':
-                    const neighborElemX = +elemX - 1;
-                    const neighborElemY = +elemY;
-
-                    checkNeighboringElem(elem, elemColor, neighborElemX, neighborElemY);
+                    neighborElemX = +elemX - 1;
+                    checkNeighboringElem(array, elem, elemColor, neighborElemX, neighborElemY);
                     break;
 
                 case 'bottom':
-                    console.log('nigga');
+                    neighborElemX = +elemX + 1;
+                    checkNeighboringElem(array, elem, elemColor, neighborElemX, neighborElemY);
                     break;
+
+                case 'left':
+                    neighborElemY = +elemY - 1;
+                    checkNeighboringElem(array, elem, elemColor, neighborElemX, neighborElemY);
+                    break;
+
+                case 'right':
+                    neighborElemY = +elemY + 1;
+                    checkNeighboringElem(array, elem, elemColor, neighborElemX, neighborElemY);
+                    break;
+
                 default:
                     break;
             }
-
         });
     });
 }
 
-// сделать чтоб переешаться могли любые притки, а не только белая
-// сделать анимацию смены цвета плитки
-// чтоб при этом в время анимации другие притки не могли двигаться
-// сделать чтоб чекалось навидение на плитку и при нажатии на ентр она перемешалась
-// сделать шкалу победы
-// сделать комбинации победы
+function checkNeighboringElem(array, element, elementColor, neighborElemX, neighborElemY) {
+    if (neighborElemX === 0 || neighborElemY === 0 || neighborElemX === 5 || neighborElemY === 5) {
+        return console.log('this func is not work as wanted');
+    }
+    array.forEach(function (elem, index) {
+        const forEachElemX = +elem.style.gridRowStart;
+        const forEachElemY = +elem.style.gridColumnStart;
 
-function winGame() {
-    
+        if (forEachElemY == neighborElemY && forEachElemX == neighborElemX) {
+            neighboringElemColor = elem.style.backgroundColor;
+            elem.style.backgroundColor = elementColor;
+        }
+
+        createAndCheckWinComboArray(array);
+    });
+    console.log(neighboringElemColor);
+    element.style.backgroundColor = neighboringElemColor;
 }
+
+const blueComboArray = [];
+const yellowComboArray = [];
+const redComboArray = [];
+
+function createAndCheckWinComboArray(array) {  
+    // array.forEach(function (elem) {
+    //     if (elem.style.gridRowStart == 1 && elem.style.backgroundColor === 'blue') {
+    //         console.log(elem.style.gridRowStart);
+    //         console.log(elem.style.backgroundColor);
+    //         blueComboArray.push(elem);
+    //         console.log(blueComboArray);
+    //     }
+    // });
+}
+
+// function checkWinComboArray(array) {
+//     let colorBtn = 0;
+//     array.forEach(function (elem) {
+//         if (elem.style.backgroundColor === 'blue') {
+//             colorBtn++;
+//         }
+//         console.log(colorBtn);
+//         console.log(array.length);
+        
+//         if (colorBtn === array.length) {
+//             console.log('U complete first line');
+//         }
+//     });
+// }
 
 function getStart() {
     stylizeField();
@@ -220,6 +228,14 @@ function getStart() {
     appendAllBtnOnDocument();
     stylizeBtn(btnArray);
     switchBtn(btnArray);
+    // checkWinComboArray(winComboElemArray);
 }
 
 getStart();
+
+//* сделать чтоб переешаться могли любые притки, а не только белая
+// сделать комбинации победы
+// сделать анимацию смены цвета плитки
+// чтоб при этом в время анимации другие притки не могли двигаться
+// сделать чтоб чекалось навидение на плитку и при нажатии на ентр она перемешалась
+// сделать шкалу победы
