@@ -210,25 +210,27 @@ function createAndCheckWinComboArray(array) {
     const arrayOfElemSecondCombo = [];
     const arrayOfElemThirdCombo = [];
     let colorForCheck;
+    let x = 0;
+    let y = 5;
 
     array.forEach(function (elem) {
         if (+elem.style.gridRowStart === 1) {
-            console.log(+elem.style.gridRowStart);
             arrayOfElemFirstCombo.push(elem);
-            console.log('BlueComboArray', arrayOfElemFirstCombo);
             // colorForCheck = 'blue';
         }
 
         if (+elem.style.gridColumnStart === 1) {
-            console.log(+elem.style.gridColumnStart);
             arrayOfElemSecondCombo.push(elem);
-            console.log('YellowComboArray', arrayOfElemSecondCombo);
             // colorForCheck = 'yellow';
         }
 
-        if (+elem.style.gridColumnStart === +elem.style.gridRowStart) {
-            console.log(+elem.style.gridColumnStart);
-            console.log(+elem.style.gridRowStart);
+        x++;
+        y--;
+
+        console.log('x', x);
+        console.log('y', y);
+
+        if ('fuck-fuck-fucking hard') {
             arrayOfElemThirdCombo.push(elem);
             console.log('RedComboArray', arrayOfElemThirdCombo);
             // colorForCheck = 'blue';
