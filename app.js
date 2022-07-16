@@ -198,10 +198,6 @@ function checkNeighboringElem(array, element, elementColor, neighborElemX, neigh
     createAndCheckWinComboArray(array);
 }
 
-// const blueComboArray = [];
-// const yellowComboArray = [];
-// const redComboArray = [];
-
 let wasBlueCombo = false;
 let wasYellowCombo = false;
 let wasRedCombo = false;
