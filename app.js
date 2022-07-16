@@ -196,30 +196,59 @@ function checkNeighboringElem(array, element, elementColor, neighborElemX, neigh
     element.style.backgroundColor = neighboringElemColor;
     
     createAndCheckWinComboArray(array);
-    // сделать что была каждая функция для каждой комбы
 }
 
 // const blueComboArray = [];
 // const yellowComboArray = [];
 // const redComboArray = [];
 
+let wasBlueCombo = false;
+let wasYellowCombo = false;
+let wasRedCombo = false;
 function createAndCheckWinComboArray(array) {
     const arrayOfElemFirstCombo = [];
+    const arrayOfElemSecondCombo = [];
+    const arrayOfElemThirdCombo = [];
+    let colorForCheck;
+
     array.forEach(function (elem) {
         if (+elem.style.gridRowStart === 1) {
             console.log(+elem.style.gridRowStart);
             arrayOfElemFirstCombo.push(elem);
-            console.log('comboArray', arrayOfElemFirstCombo);
+            console.log('BlueComboArray', arrayOfElemFirstCombo);
+            // colorForCheck = 'blue';
+        }
+
+        if (+elem.style.gridColumnStart === 1) {
+            console.log(+elem.style.gridColumnStart);
+            arrayOfElemSecondCombo.push(elem);
+            console.log('YellowComboArray', arrayOfElemSecondCombo);
+            // colorForCheck = 'yellow';
+        }
+
+        if (+elem.style.gridColumnStart === +elem.style.gridRowStart) {
+            console.log(+elem.style.gridColumnStart);
+            console.log(+elem.style.gridRowStart);
+            arrayOfElemThirdCombo.push(elem);
+            console.log('RedComboArray', arrayOfElemThirdCombo);
+            // colorForCheck = 'blue';
         }
     });
-    checkWinnerCombo(arrayOfElemFirstCombo, color);
+
+    checkWinnerCombo(arrayOfElemFirstCombo, 'blue');
+    checkWinnerCombo(arrayOfElemSecondCombo, 'yellow');
+    checkWinnerCombo(arrayOfElemThirdCombo, 'red');
 }
 
 function checkWinnerCombo(arrayForCheck, color) {
-    array = checkArrayOnColor(arrayForCheck);
-    if (array.length === 4 && progressBar.value < 33.3) {
-        console.log(progressBar.value); 
+    array = checkArrayOnColor(arrayForCheck, color);
+    console.log(wasBlueCombo);
+    console.log(wasYellowCombo);
+    console.log(wasRedCombo);
+    if (array.length === 4 && checkCounterVariable(color)) {
+        console.log(progressBar.value);
         progressBar.value += 33.3;
+        switchCounterVariable(color);
     }
 }
 
@@ -233,8 +262,65 @@ function checkArrayOnColor(array, color) {
         }
     });
     console.log('arrayWithThisColorItem', arrayWithThisColorItem);
-
     return arrayWithThisColorItem;
+}
+
+function checkCounterVariable(color) {
+    if (wasBlueCombo === false && wasYellowCombo === false && wasRedCombo === false) {
+        return 1;
+    } else {
+        return checkCounterVariableOnColor(color);
+    }
+}
+
+function checkCounterVariableOnColor(color) {
+    switch (color) {
+        case 'blue':
+            if (wasBlueCombo === true) {
+                return;
+            } else {
+                return true;
+            }
+            break;
+
+        case 'yellow':
+            if (wasYellowCombo === true) {
+                return;
+            } else {
+                return true;
+            }
+            break;
+
+        case 'red':
+            if (wasRedCombo === true) {
+                return;
+            } else {
+                return true;
+            }
+            break;
+    
+        default:
+            break;
+    }
+}
+
+function switchCounterVariable(color) {
+    switch (color) {
+        case 'blue':
+            wasBlueCombo = true;
+            break;
+
+        case 'yellow':
+            wasYellowCombo = true;
+            break;
+
+        case 'red':
+            wasRedCombo = true;
+            break;
+    
+        default:
+            break;
+    }
 }
 
 function getStart() {
