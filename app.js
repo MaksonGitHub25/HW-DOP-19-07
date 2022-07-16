@@ -1,8 +1,9 @@
 const body = document.querySelector('body');
 const textTitle = document.createElement('span');
+const progressBar = document.createElement('progress');
 const gameField = document.createElement('div');
 
-body.append(textTitle, gameField);
+body.append(textTitle, progressBar, gameField);
 
 const btnArray = [];
 
@@ -16,10 +17,14 @@ function stylizeField() {
     body.style.justifyContent = 'space-evenly';
     body.style.alignItems = 'center';
 
-    textTitle.textContent = 'Игра Змейка';
-    textTitle.style.fontFamily = 'sans-serif';
+    textTitle.textContent = '🏳️‍🌈';
     textTitle.style.fontSize = '1.7rem';
-    textTitle.style.textShadow = '1px 0px 5px white';
+
+    progressBar.max = 100;
+    progressBar.value = 0.1;
+    progressBar.style.width = '300px';
+    progressBar.style.height = '40px';
+    
 
     gameField.style.borderRadius = '10px';
     gameField.style.backgroundColor = 'white';
@@ -186,8 +191,10 @@ function checkNeighboringElem(array, element, elementColor, neighborElemX, neigh
             elem.style.backgroundColor = elementColor;
         }
 
-        createAndCheckWinComboArray(array);
     });
+    createAndCheckWinComboArray(array);
+    // сделать что была каждая функция для каждой комбы
+
     console.log(neighboringElemColor);
     element.style.backgroundColor = neighboringElemColor;
 }
@@ -196,31 +203,38 @@ const blueComboArray = [];
 const yellowComboArray = [];
 const redComboArray = [];
 
-function createAndCheckWinComboArray(array) {  
-    // array.forEach(function (elem) {
-    //     if (elem.style.gridRowStart == 1 && elem.style.backgroundColor === 'blue') {
-    //         console.log(elem.style.gridRowStart);
-    //         console.log(elem.style.backgroundColor);
-    //         blueComboArray.push(elem);
-    //         console.log(blueComboArray);
-    //     }
-    // });
+function createAndCheckWinComboArray(array, color) {
+    const arrayOfElemFirstCombo = [];
+    array.forEach(function (elem) {
+        if (+elem.style.gridRowStart === 1) {
+            console.log(+elem.style.gridRowStart);
+            arrayOfElemFirstCombo.push(elem);
+            console.log('comboArray', arrayOfElemFirstCombo);
+        }
+    });
+    checkArrayOnColor(arrayOfElemFirstCombo);
 }
 
-// function checkWinComboArray(array) {
-//     let colorBtn = 0;
-//     array.forEach(function (elem) {
-//         if (elem.style.backgroundColor === 'blue') {
-//             colorBtn++;
-//         }
-//         console.log(colorBtn);
-//         console.log(array.length);
-        
-//         if (colorBtn === array.length) {
-//             console.log('U complete first line');
-//         }
-//     });
-// }
+function checkArrayOnColor(array) {
+    const arrayWithThisColorItem = [];
+    array.forEach(function (item) {
+        if(item.style.backgroundColor === 'blue') {
+            arrayWithThisColorItem.push(item);
+        } else {
+            arrayWithThisColorItem.pop(item);
+            return console.log('this is not needed color');
+        }
+    });
+    checkWinnerCombo(arrayWithThisColorItem);
+    console.log('arrayWithThisColorItem', arrayWithThisColorItem);
+}
+
+function checkWinnerCombo(array) {
+    if (array.length === 4) {
+        console.log(progressBar.value);
+        progressBar.value += 33.3;
+    }
+}
 
 function getStart() {
     stylizeField();
@@ -228,14 +242,13 @@ function getStart() {
     appendAllBtnOnDocument();
     stylizeBtn(btnArray);
     switchBtn(btnArray);
-    // checkWinComboArray(winComboElemArray);
 }
 
 getStart();
 
 //* сделать чтоб переешаться могли любые притки, а не только белая
+//* сделать шкалу победы
 // сделать комбинации победы
 // сделать анимацию смены цвета плитки
 // чтоб при этом в время анимации другие притки не могли двигаться
 // сделать чтоб чекалось навидение на плитку и при нажатии на ентр она перемешалась
-// сделать шкалу победы
