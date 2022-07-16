@@ -192,18 +192,18 @@ function checkNeighboringElem(array, element, elementColor, neighborElemX, neigh
         }
 
     });
-    createAndCheckWinComboArray(array);
-    // сделать что была каждая функция для каждой комбы
-
     console.log(neighboringElemColor);
     element.style.backgroundColor = neighboringElemColor;
+    
+    createAndCheckWinComboArray(array);
+    // сделать что была каждая функция для каждой комбы
 }
 
-const blueComboArray = [];
-const yellowComboArray = [];
-const redComboArray = [];
+// const blueComboArray = [];
+// const yellowComboArray = [];
+// const redComboArray = [];
 
-function createAndCheckWinComboArray(array, color) {
+function createAndCheckWinComboArray(array) {
     const arrayOfElemFirstCombo = [];
     array.forEach(function (elem) {
         if (+elem.style.gridRowStart === 1) {
@@ -212,28 +212,29 @@ function createAndCheckWinComboArray(array, color) {
             console.log('comboArray', arrayOfElemFirstCombo);
         }
     });
-    checkArrayOnColor(arrayOfElemFirstCombo);
+    checkWinnerCombo(arrayOfElemFirstCombo, color);
 }
 
-function checkArrayOnColor(array) {
+function checkWinnerCombo(arrayForCheck, color) {
+    array = checkArrayOnColor(arrayForCheck);
+    if (array.length === 4 && progressBar.value < 33.3) {
+        console.log(progressBar.value); 
+        progressBar.value += 33.3;
+    }
+}
+
+function checkArrayOnColor(array, color) {
     const arrayWithThisColorItem = [];
     array.forEach(function (item) {
-        if(item.style.backgroundColor === 'blue') {
+        if(item.style.backgroundColor === color) {
             arrayWithThisColorItem.push(item);
         } else {
-            arrayWithThisColorItem.pop(item);
             return console.log('this is not needed color');
         }
     });
-    checkWinnerCombo(arrayWithThisColorItem);
     console.log('arrayWithThisColorItem', arrayWithThisColorItem);
-}
 
-function checkWinnerCombo(array) {
-    if (array.length === 4) {
-        console.log(progressBar.value);
-        progressBar.value += 33.3;
-    }
+    return arrayWithThisColorItem;
 }
 
 function getStart() {
