@@ -1,4 +1,4 @@
-alert('Привет, пользователь!');
+alert('Привет, пользователь! Это игра в плитки, ну я думаю ты и так это знаешь. Нажми на стрелку на клавиатуре, чтоб выбрать направление плитки, потом уже саму плитку для её перемешения. Задача собрать 3 комбинации плиток. Удачи!');
 
 const body = document.querySelector('body');
 const textTitle = document.createElement('span');
@@ -179,7 +179,7 @@ function checkNeighboringElem(array, element, elementColor, neighborElemX, neigh
     if (neighborElemX === 0 || neighborElemY === 0 || neighborElemX === 5 || neighborElemY === 5) {
         return console.log('this func is not work as wanted');
     }
-    array.forEach(function (elem, index) {
+    array.forEach(function (elem) {
         const forEachElemX = +elem.style.gridRowStart;
         const forEachElemY = +elem.style.gridColumnStart;
 
@@ -189,7 +189,6 @@ function checkNeighboringElem(array, element, elementColor, neighborElemX, neigh
         }
 
     });
-    console.log(neighboringElemColor);
     element.style.backgroundColor = neighboringElemColor;
     
     createAndCheckWinComboArray(array);
@@ -203,17 +202,14 @@ function createAndCheckWinComboArray(array) {
     const arrayOfElemFirstCombo = [];
     const arrayOfElemSecondCombo = [];
     const arrayOfElemThirdCombo = [];
-    let colorForCheck;
 
     array.forEach(function (elem) {
         if (+elem.style.gridRowStart === 1) {
             arrayOfElemFirstCombo.push(elem);
-            // colorForCheck = 'blue';
         }
 
         if (+elem.style.gridColumnStart === 1) {
             arrayOfElemSecondCombo.push(elem);
-            // colorForCheck = 'yellow';
         }
 
         const elemX = elem.style.gridRowStart;
@@ -221,7 +217,6 @@ function createAndCheckWinComboArray(array) {
 
         if (checkRedCombo(elemX, elemY)) {
             arrayOfElemThirdCombo.push(elem);
-            // colorForCheck = 'red';
         }
     });
 
@@ -245,11 +240,7 @@ function checkRedCombo(x, y) {
 
 function checkWinnerCombo(arrayForCheck, color) {
     array = checkArrayOnColor(arrayForCheck, color);
-    console.log(wasBlueCombo);
-    console.log(wasYellowCombo);
-    console.log(wasRedCombo);
     if (array.length === 4 && checkCounterVariable(color)) {
-        console.log(progressBar.value);
         progressBar.value += 33.3;
         switchCounterVariable(color);
         сongratulationsHandler();
@@ -262,10 +253,9 @@ function checkArrayOnColor(array, color) {
         if(item.style.backgroundColor === color) {
             arrayWithThisColorItem.push(item);
         } else {
-            return console.log('this is not needed color');
+            return;
         }
     });
-    console.log('arrayWithThisColorItem', arrayWithThisColorItem);
     return arrayWithThisColorItem;
 }
 
@@ -335,8 +325,11 @@ function сongratulationsHandler() {
 
 function сongratulations() {
     if (wasBlueCombo && wasYellowCombo && wasRedCombo) {
-        alert('Поздравляю, игрок. Ты собрал все 3 комбинации 🥳');
-        isRetry();
+        textTitle.classList.add('zoomSticker');
+        setTimeout(function () {
+            alert('Поздравляю, игрок. Ты собрал все 3 комбинации 🥳');
+            isRetry();
+        }, 1000);
     }
 }
 
@@ -345,11 +338,22 @@ function isRetry() {
     if (isRetry) {
         document.location.reload();
     } else {
+        allBtn.Disabled();
+    }
+}
+
+const allBtn = {
+    Disabled: function () {
         btnArray.forEach(function (elem) {
             elem.disabled = true;
         });
+    },
+    Enable: function () {
+        btnArray.forEach(function (elem) {
+            elem.disabled = false;
+        });
     }
-}
+};
 
 function getStart() {
     stylizeField();
@@ -360,5 +364,3 @@ function getStart() {
 }
 
 getStart();
-
-// сделать анимацию смены цвета плитки, чтоб при этом в время анимации другие притки не могли двигаться
