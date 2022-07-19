@@ -1,3 +1,5 @@
+alert('Привет, пользователь!');
+
 const body = document.querySelector('body');
 const textTitle = document.createElement('span');
 const progressBar = document.createElement('progress');
@@ -46,11 +48,6 @@ function appendAllBtnOnDocument() {
         gameField.append(elem);
     });
 }
-
-let whiteBtn;
-let whiteBtnIndex;
-let whiteBtnX;
-let whiteBtnY;
 
 function stylizeBtn(array) {
     const colorArr = ['green', 'red', 'blue', 'yellow'];
@@ -201,13 +198,12 @@ function checkNeighboringElem(array, element, elementColor, neighborElemX, neigh
 let wasBlueCombo = false;
 let wasYellowCombo = false;
 let wasRedCombo = false;
+
 function createAndCheckWinComboArray(array) {
     const arrayOfElemFirstCombo = [];
     const arrayOfElemSecondCombo = [];
     const arrayOfElemThirdCombo = [];
     let colorForCheck;
-    let x = 0;
-    let y = 5;
 
     array.forEach(function (elem) {
         if (+elem.style.gridRowStart === 1) {
@@ -221,15 +217,11 @@ function createAndCheckWinComboArray(array) {
         }
 
         const elemX = elem.style.gridRowStart;
-        const elemY = elem.style.gridRowStart;
+        const elemY = elem.style.gridColumnStart;
 
-        if (elemX == x && elemY == y && x != y && (x+1 == y || x+2 == y) || (x-1 == y || x-2 == y)) {
-            // alert('nigga in main func');
+        if (checkRedCombo(elemX, elemY)) {
             arrayOfElemThirdCombo.push(elem);
             // colorForCheck = 'red';
-        } else { 
-            x++;
-            y--;
         }
     });
 
@@ -238,20 +230,18 @@ function createAndCheckWinComboArray(array) {
     checkWinnerCombo(arrayOfElemThirdCombo, 'red');
 }
 
-// function checkRedCombo(elem, array) {
-//     let x = 1;
-//     let y = 4;
-
-//     for (; y > 0; y--) {
-//         for (; x < 5; x++) {
-//             if (x !== y) {
-//                 console.log(elem.style.gridColumnStart);
-//                 console.log(elem.style.gridRowStart);
-//                 array.push(elem);
-//             }
-//         }
-//     }
-// }
+function checkRedCombo(x, y) {
+    if (
+        x == 1 && y == 4 ||
+        x == 2 && y == 3 ||
+        x == 3 && y == 2 ||
+        x == 4 && y == 1
+        ) {
+            return true;
+    } else {
+        return false;
+    }
+}
 
 function checkWinnerCombo(arrayForCheck, color) {
     array = checkArrayOnColor(arrayForCheck, color);
@@ -262,6 +252,7 @@ function checkWinnerCombo(arrayForCheck, color) {
         console.log(progressBar.value);
         progressBar.value += 33.3;
         switchCounterVariable(color);
+        сongratulationsHandler();
     }
 }
 
@@ -336,6 +327,30 @@ function switchCounterVariable(color) {
     }
 }
 
+function сongratulationsHandler() {
+    setTimeout(function () {
+        сongratulations();
+    }, 2);
+}
+
+function сongratulations() {
+    if (wasBlueCombo && wasYellowCombo && wasRedCombo) {
+        alert('Поздравляю, игрок. Ты собрал все 3 комбинации 🥳');
+        isRetry();
+    }
+}
+
+function isRetry() {
+    isRetry = confirm('Хочешь сыграть ещё раз?');
+    if (isRetry) {
+        document.location.reload();
+    } else {
+        btnArray.forEach(function (elem) {
+            elem.disabled = true;
+        });
+    }
+}
+
 function getStart() {
     stylizeField();
     createBtn();
@@ -346,6 +361,4 @@ function getStart() {
 
 getStart();
 
-// сделать комбинации победы(красную)
-// сделать победнюю анимацию и функции
 // сделать анимацию смены цвета плитки, чтоб при этом в время анимации другие притки не могли двигаться
