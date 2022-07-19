@@ -220,16 +220,16 @@ function createAndCheckWinComboArray(array) {
             // colorForCheck = 'yellow';
         }
 
-        x++;
-        y--;
+        const elemX = elem.style.gridRowStart;
+        const elemY = elem.style.gridRowStart;
 
-        console.log('x', x);
-        console.log('y', y);
-
-        if ('fuck-fuck-fucking hard') {
+        if (elemX == x && elemY == y && x != y && (x+1 == y || x+2 == y) || (x-1 == y || x-2 == y)) {
+            // alert('nigga in main func');
             arrayOfElemThirdCombo.push(elem);
-            console.log('RedComboArray', arrayOfElemThirdCombo);
-            // colorForCheck = 'blue';
+            // colorForCheck = 'red';
+        } else { 
+            x++;
+            y--;
         }
     });
 
@@ -237,6 +237,21 @@ function createAndCheckWinComboArray(array) {
     checkWinnerCombo(arrayOfElemSecondCombo, 'yellow');
     checkWinnerCombo(arrayOfElemThirdCombo, 'red');
 }
+
+// function checkRedCombo(elem, array) {
+//     let x = 1;
+//     let y = 4;
+
+//     for (; y > 0; y--) {
+//         for (; x < 5; x++) {
+//             if (x !== y) {
+//                 console.log(elem.style.gridColumnStart);
+//                 console.log(elem.style.gridRowStart);
+//                 array.push(elem);
+//             }
+//         }
+//     }
+// }
 
 function checkWinnerCombo(arrayForCheck, color) {
     array = checkArrayOnColor(arrayForCheck, color);
@@ -331,9 +346,6 @@ function getStart() {
 
 getStart();
 
-//* сделать чтоб переешаться могли любые притки, а не только белая
-//* сделать шкалу победы
-// сделать комбинации победы
-// сделать анимацию смены цвета плитки
-// чтоб при этом в время анимации другие притки не могли двигаться
-// сделать чтоб чекалось навидение на плитку и при нажатии на ентр она перемешалась
+// сделать комбинации победы(красную)
+// сделать победнюю анимацию и функции
+// сделать анимацию смены цвета плитки, чтоб при этом в время анимации другие притки не могли двигаться
